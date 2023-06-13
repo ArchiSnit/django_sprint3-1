@@ -7,11 +7,10 @@ def index(request):
     '''Функция главной страници'''
     post_list = Post.objects.select_related(
         'location'
-        ).filter(
-        is_published=True,
-        category__is_published=True,
-        pub_date__lt=timezone.now()
-    ).order_by('title')[0:5]
+        ).filter(is_published=True,
+                 category__is_published=True,
+                 pub_date__lt=timezone.now()
+                 ).order_by('title')[0:5]
     context = {
         'post_list': post_list
         }
@@ -34,11 +33,11 @@ def category_posts(request, category_slug):
     '''Функция отвечает за Публикации в категории'''
     category_slug = get_object_or_404(
          Category.objects.exclude(
-            'title', 'description',
-         ).filter(
-            slug=category_slug,
-            is_published=True
-         )
+            'title',
+            'description',
+         ).filter(slug=category_slug,
+                  is_published=True
+                  )
     )
     context = {
         'category_slug': category_slug,
