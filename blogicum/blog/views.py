@@ -7,10 +7,11 @@ def index(request):
     '''Функция главной страници'''
     post_list = Post.objects.select_related(
         'location'
-        ).filter(is_published=True,
-                 category__is_published=True,
-                 pub_date__lt=timezone.now()
-                 ).order_by('title')[0:5]
+        ).filter(
+            is_published=True,
+            category__is_published=True,
+            pub_date__lt=timezone.now()
+        ).order_by('title')[0:5]
     context = {
         'post_list': post_list
         }
@@ -18,6 +19,7 @@ def index(request):
 
 
 def post_detail(request, post_id):
+    '''Функция отвечает за посты'''
     post = get_object_or_404(
         Post.objects.filter(
             is_published=True,
@@ -31,15 +33,24 @@ def post_detail(request, post_id):
 
 def category_posts(request, category_slug):
     '''Функция отвечает за Публикации в категории'''
-    category_slug = get_object_or_404(
-         Category.objects.exclude(
+    category = get_object_or_404(
+        Category.objects.values(
             'title',
             'description',
-         ).filter(slug=category_slug,
-                  is_published=True
-                  )
+        ).filter(
+            slug=category_slug,
+            is_published=True,
+            created_at__lt=timezone.now()
+        )
+    )
+    post_list = Post.objects.filter(
+        category__slug=category_slug,
+        is_published=True,
+        category__is_published=True,
+        pub_date__lte=timezone.now(),
     )
     context = {
-        'category_slug': category_slug,
+        'category': category,
+        'post_list': post_list,
     }
     return render(request, 'blog/category.html', context)
