@@ -6,11 +6,11 @@ from django.utils import timezone
 def index(request):
     '''Функция главной страници'''
     post_list = Post.objects.select_related(
-        'location'
-        ).filter(is_published=True,
-                 category__is_published=True,
-                 pub_date__lt=timezone.now()
-                 ).order_by('title')[0:5]
+        'location',
+    ).filter(is_published=True,
+             category__is_published=True,
+             pub_date__lt=timezone.now()
+             ).order_by('title')[0:5]
     context = {'post_list': post_list}
     return render(request, 'blog/index.html', context)
 
