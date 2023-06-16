@@ -14,7 +14,7 @@ class Category(BaseModel):
         help_text='Идентификатор страницы для URL; '
                   'разрешены символы латиницы, цифры, '
                   'дефис и подчёркивание.'
-                            )
+    )
 
     class Meta:
         verbose_name = 'категория'
@@ -43,7 +43,7 @@ class Post(BaseModel):
         help_text='Если установить дату '
                   'и время в будущем — можно делать '
                   'отложенные публикации.'
-                                    )
+    )
     author = models.ForeignKey(User,
                                on_delete=models.CASCADE,
                                verbose_name='Автор публикации'
