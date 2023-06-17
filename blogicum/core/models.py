@@ -1,7 +1,8 @@
 from django.db import models
 
 
-class BaseModel(models.Model):
+class Actions(models.Model):
+    """Базовая модель."""
     created_at = models.DateTimeField('Добавлено', auto_now_add=True)
     is_published = models.BooleanField(
         'Опубликовано',
