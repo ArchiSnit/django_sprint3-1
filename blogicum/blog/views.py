@@ -8,7 +8,7 @@ NUM_OF_PUNBLIC = 5
 
 def post_query():
     """Функция запроса"""
-    query_set = (
+    return (
         Post.objects.select_related(
             'category',
             'location',
@@ -19,12 +19,11 @@ def post_query():
             category__is_published=True,
         )
     )
-    return query_set
 
 
 def index(request):
     '''Функция главной страници'''
-    post_list = post_query().order_by('title')[:NUM_OF_PUNBLIC]
+    post_list = post_query().order_by('-pub_date')[:NUM_OF_PUNBLIC]
     context = {'post_list': post_list}
     return render(request, 'blog/index.html', context)
 
@@ -39,11 +38,10 @@ def post_detail(request, post_id):
 def category_posts(request, category_slug):
     '''Функция отвечает за Публикации в категории'''
     category = get_object_or_404(
-        Category.objects.filter(
-            slug=category_slug,
-            is_published=True,
+        Category,
+        slug=category_slug,
+        is_published=True,
         )
-    )
     post_list = post_query().filter(category=category)
     context = {
         'category': category,

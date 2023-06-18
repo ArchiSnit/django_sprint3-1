@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from core.models import Actions
 
 User = get_user_model()
+TEXT = 25
 
 
 class Category(Actions):
@@ -25,7 +26,7 @@ class Category(Actions):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title[:25]
+        return self.title[:TEXT]
 
 
 class Location(Actions):
@@ -37,7 +38,7 @@ class Location(Actions):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name
+        return self.name[:TEXT]
 
 
 class Post(Actions):
@@ -79,4 +80,4 @@ class Post(Actions):
         verbose_name_plural = 'Публикации'
 
     def __str__(self):
-        return self.title[:25]
+        return self.title[:TEXT]
